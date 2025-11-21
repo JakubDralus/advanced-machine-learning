@@ -1,5 +1,6 @@
 /.vs
 /.idea
-*.csv
 *.zip
 *.log
+
+scaled_data/
