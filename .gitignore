@@ -2,3 +2,6 @@
 /.idea
 *.zip
 *.log
+
+/catboost_info/
+__pycache__/
