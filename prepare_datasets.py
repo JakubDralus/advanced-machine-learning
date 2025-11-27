@@ -113,32 +113,36 @@ print("4. data_knn              - KNNImputer (zaawansowana)")
 
 
 # --- Own implementation of Min-Max Scaling and Z-Score Scaling ---
+
+continuous_features = [
+    'Age', 'BMI', 'AlcoholConsumption', 'PhysicalActivity',
+    'DietQuality', 'SleepQuality', 'SystolicBP', 'DiastolicBP',
+    'CholesterolTotal', 'CholesterolLDL', 'CholesterolHDL', 'CholesterolTriglycerides',
+    'MMSE', 'FunctionalAssessment', 'ADL',
+]
+
 def min_max_scale(df):
     df_scaled = df.copy()
-    # scale only numeric columns and handle constant columns
-    numeric_cols = df_scaled.select_dtypes(include=[np.number]).columns
-    numeric_cols = [c for c in numeric_cols if c != 'Diagnosis']
-    for col in numeric_cols:
-        min_val = df_scaled[col].min()
-        max_val = df_scaled[col].max()
-        if pd.isna(min_val) or pd.isna(max_val) or max_val == min_val:
-            # constant or all-NaN column -> set to 0 to avoid division by zero
-            df_scaled[col] = 0.0
-        else:
-            df_scaled[col] = (df_scaled[col] - min_val) / (max_val - min_val)
+    for col in continuous_features:
+        if col in df_scaled.columns:
+            min_val = df_scaled[col].min()
+            max_val = df_scaled[col].max()
+            if pd.isna(min_val) or pd.isna(max_val) or max_val == min_val:
+                df_scaled[col] = 0.0
+            else:
+                df_scaled[col] = (df_scaled[col] - min_val) / (max_val - min_val)
     return df_scaled
 
 def z_score_scale(df):
     df_scaled = df.copy()
-    numeric_cols = df_scaled.select_dtypes(include=[np.number]).columns
-    numeric_cols = [c for c in numeric_cols if c != 'Diagnosis']
-    for col in numeric_cols:
-        mean_val = df_scaled[col].mean()
-        std_val = df_scaled[col].std()
-        if pd.isna(std_val) or std_val == 0:
-            df_scaled[col] = 0.0
-        else:
-            df_scaled[col] = (df_scaled[col] - mean_val) / std_val
+    for col in continuous_features:
+        if col in df_scaled.columns:
+            mean_val = df_scaled[col].mean()
+            std_val = df_scaled[col].std()
+            if pd.isna(std_val) or std_val == 0:
+                df_scaled[col] = 0.0
+            else:
+                df_scaled[col] = (df_scaled[col] - mean_val) / std_val
     return df_scaled
 
 datasets = [data_pycaret_mean, data_constant, data_interpolated, data_knn]
