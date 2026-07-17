@@ -5,8 +5,7 @@ data source: https://www.kaggle.com/datasets/rabieelkharoua/alzheimers-disease-d
 ### Order of files
 
 To read the project top to bottom the sequence is:
-1. `EDA_and_preprocessing.ipynb`
-   1. `prepare_datasets.py` (in the middle of the above)
+1. `EDA_and_preprocessing.ipynb` which uses `prepare_datasets.py`
 2. `model_training.ipynb`
 3. `optimization.ipynb`
 
